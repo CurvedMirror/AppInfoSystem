@@ -40,4 +40,14 @@ public class AppInfoServiceImpl implements AppInfoService {
     public AppInfo getAppInfo(Integer id, String APKName) {
         return appInfoMapper.getAppInfo(id,APKName);
     }
+
+    @Override
+    public AppInfo getAppInfoByID(Integer id) {
+        return appInfoMapper.getAppInfoByID(id);
+    }
+
+    @Override
+    public boolean appinfomodifysave(AppInfo appInfo) {
+        return appInfoMapper.appinfomodifysave(appInfo);
+    }
 }

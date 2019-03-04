@@ -31,4 +31,8 @@ public interface AppInfoMapper {
     boolean addAppInfo(AppInfo appInfo);
 
     public AppInfo getAppInfo(@Param(value="id")Integer id,@Param(value="APKName")String APKName);
+
+    boolean appinfomodifysave(AppInfo appInfo);
+
+    AppInfo getAppInfoByID(@Param(value = "id") Integer id);
 }

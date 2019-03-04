@@ -112,8 +112,7 @@
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <textarea id="appInfo" name="appInfo" required="required"
-              placeholder="请输入本软件的相关信息，本信息作为软件的详细信息进行软件的介绍。" class="form-control col-md-7 col-xs-12">
-              ${appInfo.appInfo}</textarea>
+              placeholder="请输入本软件的相关信息，本信息作为软件的详细信息进行软件的介绍。" class="form-control col-md-7 col-xs-12">${appInfo.appInfo}</textarea>
             </div>
           </div>
            <div class="item form-group">

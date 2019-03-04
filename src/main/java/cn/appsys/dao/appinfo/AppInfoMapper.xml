@@ -163,4 +163,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
         </trim>
     </select>
+
+    <!--boolean appinfomodifysave(AppInfo appInfo);-->
+    <update id="appinfomodifysave">
+        UPDATE
+        `appinfodb`.`app_info`
+        SET
+        `softwareName` = #{softwareName},
+        `APKName` = #{APKName},
+        `supportROM` = #{supportROM},
+        `interfaceLanguage` = #{interfaceLanguage},
+        `softwareSize` = #{softwareSize},
+        `updateDate` = #{updateDate},
+        `devId` = #{devId},
+        `appInfo` = #{appInfo},
+        `status` = #{status},
+        `onSaleDate` = #{onSaleDate},
+        `offSaleDate` = #{offSaleDate},
+        `flatformId` = #{flatformId},
+        `categoryLevel3` = #{categoryLevel3},
+        `downloads` = #{downloads},
+        `modifyBy` = #{modifyBy},
+        `modifyDate` = #{modifyDate},
+        `categoryLevel1` = #{categoryLevel1},
+        `categoryLevel2` = #{categoryLevel2},
+        `versionId` = #{versionId}
+        WHERE `id` = #{id};
+    </update>
+
+    <!--AppInfo getAppInfoByID(Integer id);-->
+    <select id="getAppInfoByID" resultType="AppInfo">
+        SELECT *,
+        (select valueName from data_dictionary d where  a.status=d.valueId AND d.typeCode='APP_STATUS') as statusName
+        FROM `app_info` a WHERE id=#{id}
+    </select>
 </mapper>

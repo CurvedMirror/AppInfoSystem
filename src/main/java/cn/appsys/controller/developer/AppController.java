@@ -14,10 +14,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -105,7 +102,7 @@ public class AppController {
      * @param pid
      * @return
      */
-    @RequestMapping(value = "/categorylevellist", method = RequestMethod.GET)
+    @RequestMapping(value = "/categorylevellist.json", method = RequestMethod.GET)
     @ResponseBody
     public List<AppCategory> getAppCategoryList(@RequestParam String pid) {
         if ("".equals(pid)) {
@@ -205,5 +202,16 @@ public class AppController {
         return JSONArray.toJSONString(resultMap);
     }
 
+    @RequestMapping(value = "/appinfomodify/{id}",method = RequestMethod.GET)
+    public String appinfomodify(@PathVariable int id, Model model){
+        AppInfo appinfo = appInfoService.getAppInfoByID(id);
+        model.addAttribute(appinfo);
+        return "developer/appinfomodify";
+    }
 
+    @RequestMapping(value = "/appinfomodifysave",method = RequestMethod.POST)
+    public String appinfomodifysave(){
+
+        return "";
+    }
 }

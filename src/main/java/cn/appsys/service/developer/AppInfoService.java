@@ -3,6 +3,7 @@ package cn.appsys.service.developer;
 
 import cn.appsys.pojo.AppInfo;
 import cn.appsys.pojo.DataDictionary;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -53,4 +54,18 @@ public interface AppInfoService {
      * @throws Exception
      */
     public AppInfo getAppInfo(Integer id,String APKName);
+
+    /**
+     * 根据id查询appinfo
+     * @param id
+     * @return
+     */
+    AppInfo getAppInfoByID(Integer id);
+
+    /**
+     * 修改appinfo
+     * @param appInfo
+     * @return
+     */
+    boolean appinfomodifysave(AppInfo appInfo);
 }
