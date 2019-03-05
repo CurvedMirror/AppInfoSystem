@@ -68,4 +68,11 @@ public interface AppInfoService {
      * @return
      */
     boolean appinfomodifysave(AppInfo appInfo);
+
+    /**
+     *  删除logo图片
+     * @param id
+     * @return
+     */
+     boolean deleteAppLogo(Integer id);
 }

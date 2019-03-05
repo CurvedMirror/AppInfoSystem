@@ -166,29 +166,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <!--boolean appinfomodifysave(AppInfo appInfo);-->
     <update id="appinfomodifysave">
-        UPDATE
-        `appinfodb`.`app_info`
-        SET
-        `softwareName` = #{softwareName},
-        `APKName` = #{APKName},
-        `supportROM` = #{supportROM},
-        `interfaceLanguage` = #{interfaceLanguage},
-        `softwareSize` = #{softwareSize},
-        `updateDate` = #{updateDate},
-        `devId` = #{devId},
-        `appInfo` = #{appInfo},
-        `status` = #{status},
-        `onSaleDate` = #{onSaleDate},
-        `offSaleDate` = #{offSaleDate},
-        `flatformId` = #{flatformId},
-        `categoryLevel3` = #{categoryLevel3},
-        `downloads` = #{downloads},
-        `modifyBy` = #{modifyBy},
-        `modifyDate` = #{modifyDate},
-        `categoryLevel1` = #{categoryLevel1},
-        `categoryLevel2` = #{categoryLevel2},
-        `versionId` = #{versionId}
-        WHERE `id` = #{id};
+        update app_info
+        <trim prefix="set" suffixOverrides="," suffix="where id=#{id}">
+            <if test="softwareName != null">softwareName=#{softwareName},</if>
+            <if test="supportROM != null">supportROM=#{supportROM},</if>
+            <if test="interfaceLanguage != null">interfaceLanguage=#{interfaceLanguage},</if>
+            <if test="updateDate != null">updateDate=#{updateDate},</if>
+            <if test="softwareSize != null">softwareSize=#{softwareSize},</if>
+            <if test="appInfo != null">appInfo=#{appInfo},</if>
+            <if test="status != null">status=#{status},</if>
+            <if test="onSaleDate != null">onSaleDate=#{onSaleDate},</if>
+            <if test="offSaleDate != null">offSaleDate=#{offSaleDate},</if>
+            <if test="categoryLevel1 != null">categoryLevel1=#{categoryLevel1},</if>
+            <if test="categoryLevel2 != null">categoryLevel2=#{categoryLevel2},</if>
+            <if test="categoryLevel3 != null">categoryLevel3=#{categoryLevel3},</if>
+            <if test="downloads != null">downloads=#{downloads},</if>
+            <if test="flatformId != null">flatformId=#{flatformId},</if>
+            <if test="logoPicPath != null">logoPicPath=#{logoPicPath},</if>
+            <if test="logoLocPath != null">logoLocPath=#{logoLocPath},</if>
+            <if test="modifyBy != null">modifyBy=#{modifyBy},</if>
+            <if test="modifyDate != null">modifyDate=#{modifyDate},</if>
+        </trim>
     </update>
 
     <!--AppInfo getAppInfoByID(Integer id);-->
@@ -197,4 +195,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         (select valueName from data_dictionary d where  a.status=d.valueId AND d.typeCode='APP_STATUS') as statusName
         FROM `app_info` a WHERE id=#{id}
     </select>
+    <!--int deleteAppLogo(@Param(value="id")Integer id);-->
+    <update id="deleteAppLogo" parameterType="Integer">
+        update app_info
+        set logoPicPath=null,
+        logoLocPath = null
+        where id = #{id}
+    </update>
+    <update id="updateVersionId">
+        update app_info
+        set versionId=#{versionId}
+        where id = #{id}
+    </update>
+
+    <update id="updateSatus">
+        update app_info
+        set status=#{status}
+        where id = #{id}
+    </update>
+    
 </mapper>

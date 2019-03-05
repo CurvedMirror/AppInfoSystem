@@ -7,6 +7,9 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * @author Administrator
+ */
 public interface AppInfoMapper {
 
     List<AppInfo> getAppInfoList(@Param("softwareName") String softwareName,
@@ -30,9 +33,20 @@ public interface AppInfoMapper {
 
     boolean addAppInfo(AppInfo appInfo);
 
-    public AppInfo getAppInfo(@Param(value="id")Integer id,@Param(value="APKName")String APKName);
+    AppInfo getAppInfo(@Param(value = "id") Integer id, @Param(value = "APKName") String APKName);
 
     boolean appinfomodifysave(AppInfo appInfo);
 
     AppInfo getAppInfoByID(@Param(value = "id") Integer id);
+
+    boolean deleteAppLogo(@Param(value="id")Integer id);
+
+    /**
+     * 根据appId，更新最新versionId
+     * @param versionId
+     * @param appId
+     * @return
+     * @throws Exception
+     */
+    void updateVersionId(@Param(value = "versionId") Integer versionId, @Param(value = "id") Integer appId);
 }
