@@ -284,7 +284,6 @@ public class AppController {
                     }
                 }
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         } else if ("apk".equals(flag)) {
@@ -412,5 +411,52 @@ public class AppController {
         model.addAttribute("appVersionList", appVersionList);
         return "developer/appversionmodify";
     }
-    /*@RequestMapping(value = iu)*/
+
+    @RequestMapping(value = "/appversionmodifysave", method = RequestMethod.POST)
+    public String modifyAppVersionSave(AppVersion appVersion, HttpSession session,
+                                       HttpServletRequest request,
+                                       @RequestParam(value = "attach") MultipartFile attach) {
+        String apkLocPath = null;
+        String downloadLink = null;
+        String apkFileName = null;
+
+        if (!attach.isEmpty()) {
+            String path = request.getSession().getServletContext().getRealPath("statis" + File.separator + "uploadfiles");
+            String oldFileName = attach.getOriginalFilename();
+            String prefix = FilenameUtils.getExtension(oldFileName);
+            int fileSize = 5000000;
+            if (attach.getSize() > fileSize) {
+                request.setAttribute("fileUploadError", Constants.FILEUPLOAD_ERROR_4);
+                return "developer/appversionmodify";
+            } else if ("apk".equalsIgnoreCase(prefix)) {
+                String apkName = appInfoService.getAppInfo(appVersion.getAppId(), null).getAPKName();
+                apkFileName = apkName + "-" + appVersion.getVersionNo() + ".apk";
+                File targetFile = new File(path,apkFileName);
+                if (!targetFile.exists()){
+                    targetFile.mkdirs();
+                }
+                try {
+                    attach.transferTo(targetFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    request.setAttribute("fileUploadError",Constants.FILEUPLOAD_ERROR_2);
+                    return "developer/appversionmodify";
+                }
+                downloadLink = request.getContextPath() + "/statics/uploadfiles/" + apkFileName;
+                apkLocPath = path + File.separator + apkFileName;
+            }else {
+                request.setAttribute("fileUploadError",Constants.FILEUPLOAD_ERROR_3);
+                return "developer/appversionmodify";
+            }
+        }
+        appVersion.setModifyBy(((DevUser) session.getAttribute(Constants.DEV_USER_SESSION)).getId());
+        appVersion.setModifyDate(new Date());
+        appVersion.setDownloadLink(downloadLink);
+        appVersion.setApkLocPath(apkLocPath);
+        appVersion.setApkFileName(apkFileName);
+        if (appVersionService.modifyVersion(appVersion)){
+            return "redirect:/dev/flatform/app/list";
+        }
+        return "developer/appinfomodify";
+    }
 }

@@ -33,5 +33,11 @@ public interface AppVersionMapper {
      */
     List<AppVersion> getAppVersionList(@Param("appId") Integer appId);
 
+    /**
+     * 修改版本信息
+     * @param appVersion
+     * @return
+     */
+    boolean modifyVersion(AppVersion appVersion);
 
 }

@@ -40,4 +40,9 @@ public class AppVersionServiceImpl implements AppVersionService {
     public List<AppVersion> getAppVersionList(Integer appId) {
         return appVersionMapper.getAppVersionList(appId);
     }
+
+    @Override
+    public boolean modifyVersion(AppVersion appVersion) {
+        return appVersionMapper.modifyVersion(appVersion);
+    }
 }
