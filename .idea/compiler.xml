@@ -11,6 +11,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="a" target="11" />
+      <module name="gsh" target="1.7" />
       <module name="sf" target="1.6" />
     </bytecodeTargetLevel>
   </component>

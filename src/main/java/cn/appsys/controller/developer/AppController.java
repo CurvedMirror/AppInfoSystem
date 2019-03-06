@@ -465,10 +465,9 @@ public class AppController {
     public void export2(HttpServletResponse response,HttpSession session) throws Exception{
         String[] titles ={"id","软件名称","APK名称","软件大小(单位M)","所属平台","一级分类","二级分类","三级分类",
         "状态","下载次数","最新版本号"};
-        String[] valueKey ={"id","softwareName","APKName","softwareSize","flatformName","categoryLevel1Name","categoryLevel2Name",
-        "categoryLevel3Name","statusName","versionNo"};
+
         List<AppInfo> appInfoList = (List<AppInfo>) session.getAttribute("appInfoListToExcel");
-        ExcelUtil.exportData(response, "app信息", titles, valueKey, appInfoList);
+        ExcelUtil.exportData(response, "app信息", titles, appInfoList);
 
     }
     @RequestMapping(value = "/appview/{id}")
@@ -478,5 +477,36 @@ public class AppController {
         model.addAttribute(appinfo);
         model.addAttribute("appVersionList",appVersionList);
         return "developer/appinfoview";
+    }
+    @RequestMapping(value = "/delapp")
+    @ResponseBody
+    public String delapp(String id){
+        HashMap<String, String> resultMap = new HashMap<>();
+        if(StringUtils.isNullOrEmpty(id)){
+            resultMap.put("delResult", "notexist");
+        }else{
+            if(appInfoService.appsysdelAppInfo(Integer.parseInt(id))) {
+                resultMap.put("delResult", "true");
+            } else {
+                resultMap.put("delResult", "false");
+            }
+        }
+        return JSONArray.toJSONString(resultMap);
+    }
+
+
+    @RequestMapping(value="/{appid}/sale",method=RequestMethod.PUT)
+    @ResponseBody
+    public Object sale(@PathVariable String appid){
+        HashMap<String, Object> resultMap = new HashMap<>();
+        AppInfo appInfo = appInfoService.getAppInfoByID(Integer.valueOf(appid));
+        boolean flag = appInfoService.updateStatus(appInfo);
+        resultMap.put("errorCode", "0");
+        if(flag){
+            resultMap.put("resultMsg", "success");
+        }else{
+            resultMap.put("errorCode", "exception000001");
+        }
+        return resultMap;
     }
 }

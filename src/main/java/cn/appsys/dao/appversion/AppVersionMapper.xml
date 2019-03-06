@@ -51,4 +51,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="apkFileName!=null">`apkFileName` = #{apkFileName},</if>
         </trim>
     </update>
+    <!-- boolean delVersion(Integer appId);-->
+    <delete id="delVersion">
+        DELETE FROM `app_version` WHERE appId=#{appId}
+    </delete>
 </mapper>

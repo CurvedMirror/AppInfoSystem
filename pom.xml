@@ -7,6 +7,9 @@
   <groupId>com.bdqn</groupId>
   <artifactId>AppInfoSystem</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <modules>
+
+  </modules>
   <packaging>war</packaging>
 
   <name>AppInfoSystem Maven Webapp</name>

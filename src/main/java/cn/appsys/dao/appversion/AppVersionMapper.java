@@ -40,4 +40,10 @@ public interface AppVersionMapper {
      */
     boolean modifyVersion(AppVersion appVersion);
 
+    /**
+     * 删除app版本信息
+     * @param appId
+     * @return
+     */
+    boolean delVersion(@Param("appId") Integer appId);
 }

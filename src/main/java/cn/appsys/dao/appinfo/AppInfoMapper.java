@@ -11,7 +11,18 @@ import java.util.List;
  * @author Administrator
  */
 public interface AppInfoMapper {
-
+    /**
+     * 获取app列表
+     * @param softwareName 软件名
+     * @param status 状态
+     * @param flatformId 所属平台
+     * @param categoryLevel1 一级分类
+     * @param categoryLevel2 二级分类
+     * @param categoryLevel3 三级分类
+     * @param currentPageNo 当前页
+     * @param pageSize 页大小
+     * @return
+     */
     List<AppInfo> getAppInfoList(@Param("softwareName") String softwareName,
                                  @Param("status") String status,
                                  @Param("flatformId") String flatformId,
@@ -56,4 +67,18 @@ public interface AppInfoMapper {
      * @return
      */
     AppInfo getAppInfoById(@Param(value = "id") Integer id);
+
+    /**
+     * 删除app信息
+     * @param id
+     * @return
+     */
+    boolean delAppInfo(@Param("id") Integer id);
+
+    /**
+     * 更新app状态
+     * @param appInfo
+     * @return
+     */
+    boolean updateStatus(@Param(value = "appInfo") AppInfo appInfo);
 }
