@@ -75,4 +75,10 @@ public interface AppInfoService {
      * @return
      */
      boolean deleteAppLogo(Integer id);
+    /**
+     * 获取app基础信息
+     * @param id
+     * @return
+     */
+    AppInfo getAppInfoById(@Param(value = "id") Integer id);
 }

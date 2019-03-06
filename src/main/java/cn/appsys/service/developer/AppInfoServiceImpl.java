@@ -55,4 +55,9 @@ public class AppInfoServiceImpl implements AppInfoService {
     public boolean deleteAppLogo(Integer id) {
         return appInfoMapper.deleteAppLogo(id);
     }
+
+    @Override
+    public AppInfo getAppInfoById(Integer id) {
+        return appInfoMapper.getAppInfoById(id);
+    }
 }

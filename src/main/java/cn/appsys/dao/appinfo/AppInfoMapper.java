@@ -49,4 +49,11 @@ public interface AppInfoMapper {
      * @throws Exception
      */
     void updateVersionId(@Param(value = "versionId") Integer versionId, @Param(value = "id") Integer appId);
+
+    /**
+     * 获取app基础信息
+     * @param id
+     * @return
+     */
+    AppInfo getAppInfoById(@Param(value = "id") Integer id);
 }

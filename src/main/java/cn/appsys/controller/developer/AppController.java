@@ -5,6 +5,7 @@ import cn.appsys.service.developer.AppCategoryService;
 import cn.appsys.service.developer.AppInfoService;
 import cn.appsys.service.developer.AppVersionService;
 import cn.appsys.tools.Constants;
+import cn.appsys.tools.ExcelUtil;
 import cn.appsys.tools.PageSupport;
 import com.alibaba.fastjson.JSONArray;
 import com.mysql.jdbc.StringUtils;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
@@ -49,7 +51,7 @@ public class AppController {
                                  @RequestParam(required = false) String queryCategoryLevel3,
                                  @RequestParam(required = false) String queryStatus,
                                  @RequestParam(value = "pageIndex", required = false) String pageIndex,
-                                 Model model) {
+                                 Model model,HttpSession session) {
 
 
         int currentPageNo = pageIndex == null ? 1 : Integer.parseInt(pageIndex);
@@ -69,7 +71,7 @@ public class AppController {
         //获取一级分类
         List<AppCategory> categoryLevel1List = appCategoryService.getCategoryListByParentId(null);
 
-
+        session.setAttribute("appInfoListToExcel",appInfoList);
         model.addAttribute("appInfoList", appInfoList);
         model.addAttribute("statusList", statusList);
         model.addAttribute("flatFormList", flatFormList);
@@ -421,7 +423,7 @@ public class AppController {
         String apkFileName = null;
 
         if (!attach.isEmpty()) {
-            String path = request.getSession().getServletContext().getRealPath("statis" + File.separator + "uploadfiles");
+            String path = request.getSession().getServletContext().getRealPath("statics" + File.separator + "uploadfiles");
             String oldFileName = attach.getOriginalFilename();
             String prefix = FilenameUtils.getExtension(oldFileName);
             int fileSize = 5000000;
@@ -458,5 +460,23 @@ public class AppController {
             return "redirect:/dev/flatform/app/list";
         }
         return "developer/appinfomodify";
+    }
+    @RequestMapping(value="/export")
+    public void export2(HttpServletResponse response,HttpSession session) throws Exception{
+        String[] titles ={"id","软件名称","APK名称","软件大小(单位M)","所属平台","一级分类","二级分类","三级分类",
+        "状态","下载次数","最新版本号"};
+        String[] valueKey ={"id","softwareName","APKName","softwareSize","flatformName","categoryLevel1Name","categoryLevel2Name",
+        "categoryLevel3Name","statusName","versionNo"};
+        List<AppInfo> appInfoList = (List<AppInfo>) session.getAttribute("appInfoListToExcel");
+        ExcelUtil.exportData(response, "app信息", titles, valueKey, appInfoList);
+
+    }
+    @RequestMapping(value = "/appview/{id}")
+    public String appview(@PathVariable int id, Model model){
+        AppInfo appinfo = appInfoService.getAppInfoById(id);
+        List<AppVersion> appVersionList = appVersionService.getAppVersionList(id);
+        model.addAttribute(appinfo);
+        model.addAttribute("appVersionList",appVersionList);
+        return "developer/appinfoview";
     }
 }

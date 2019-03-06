@@ -121,6 +121,7 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<a href="${pageContext.request.contextPath}/dev/flatform/app/appinfoadd" class="btn btn-success btn-sm">新增APP基础信息</a>
+							<a href="${pageContext.request.contextPath}/dev/flatform/app/export" class="btn btn-success btn-sm">导出信息到excel</a>
 							<table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
 								   cellspacing="0" width="100%" role="grid" aria-describedby="datatable-responsive_info" style="width: 100%;">
 								<thead>

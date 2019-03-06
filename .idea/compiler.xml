@@ -9,5 +9,9 @@
         <module name="AppInfoSystem" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="a" target="11" />
+      <module name="sf" target="1.6" />
+    </bytecodeTargetLevel>
   </component>
 </project>
